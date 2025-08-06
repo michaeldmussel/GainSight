@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  background: #f0f2f5;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#csvFileInput,
+#exerciseDropdown {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#chart {
+  margin-top: 2rem;
+}
