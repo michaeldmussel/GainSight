@@ -3,26 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>GainSight – Workout Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>GainSight – Workout Tracker</h1>
+  <div class="container">
+    <h1>GainSight – Workout Tracker</h1>
 
-  <label for="csvFormat">CSV Format:</label>
-  <select id="csvFormat">
-    <option value="strong" selected>Strong (default)</option>
-    <!-- Add future formats here -->
-  </select>
+    <div class="controls">
+      <label for="csvFormat">CSV Format:</label>
+      <select id="csvFormat">
+        <option value="strong" selected>Strong (default)</option>
+        <option value="format2">Custom Format 2 (asafkedem_20250806)</option>
+      </select>
 
-  <input type="file" id="csvFileInput" accept=".csv">
+      <label for="csvFileInput">Upload CSV:</label>
+      <input id="csvFileInput" type="file" accept=".csv">
 
-  <label for="exerciseDropdown">Choose Exercise:</label>
-  <select id="exerciseDropdown" disabled></select>
+      <label for="exerciseDropdown">Choose Exercise:</label>
+      <select id="exerciseDropdown" disabled>
+        <option>—</option>
+      </select>
+    </div>
 
-  <div id="chart"></div>
+    <div class="chart-container">
+      <label><input type="checkbox" id="toggleAvgVolume"> Show Monthly Avg Volume</label>
+      <div id="chartVolume" class="chart"><span id="chartVolumeMsg" style="display:none;color:#888;font-style:italic"></span></div>
+    </div>
 
-  <script src="script.js"></script>
+    <div class="chart-container">
+      <label><input type="checkbox" id="toggleAvgMaxWeight"> Show Monthly Avg Max Weight</label>
+      <div id="chartMaxWeight" class="chart"><span id="chartMaxWeightMsg" style="display:none;color:#888;font-style:italic"></span></div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
