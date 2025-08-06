@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { WorkoutParser, WorkoutAnalyzer } = require('./workout-parser.js');
+const { MultiFormatWorkoutParser, EnhancedWorkoutAnalyzer } = require('./workout-parser.js');
 
 // Configuration
 const CSV_FILE_PATH = process.argv[2] || 'strong8452961796350394804.csv';
@@ -36,12 +36,12 @@ async function main() {
 
         // Parse the workout data
         console.log('🔄 Parsing workout data...');
-        const parser = new WorkoutParser();
+        const parser = new MultiFormatWorkoutParser();
         const parsedData = parser.parse(csvContent);
-        console.log('✅ Parsing completed!\n');
+        console.log(`✅ Parsing completed! Format detected: ${parser.detectedFormat}\n`);
 
         // Create analyzer
-        const analyzer = new WorkoutAnalyzer(parsedData);
+        const analyzer = new EnhancedWorkoutAnalyzer(parsedData);
 
         // Display summary statistics
         displaySummary(parser, parsedData);
@@ -156,7 +156,7 @@ async function exportResults(data, analyzer) {
     
     // Export summary report
     const summaryPath = path.join(OUTPUT_DIR, 'workout-summary.json');
-    const parser = new WorkoutParser();
+    const parser = new MultiFormatWorkoutParser();
     parser.data = data;
     const summary = parser.getSummary();
     fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
