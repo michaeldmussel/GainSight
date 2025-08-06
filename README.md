@@ -32,8 +32,13 @@ A comprehensive JavaScript parser that supports **multiple workout CSV formats**
 
 ## 🚀 Quick Start
 
-### Web Interface (Easiest)
-1. Open `demo.html` in your web browser
+### 🌐 Live Demo
+**Try it now:** [GitHub Pages Demo](https://michaeldmussel.github.io/GainSight/)
+
+Upload your workout CSV file and get instant analysis with interactive charts!
+
+### Web Interface (Local)
+1. Open `index.html` in your web browser
 2. Drag and drop your CSV file (any supported format)
 3. View your parsed workout data with interactive charts and statistics
 
