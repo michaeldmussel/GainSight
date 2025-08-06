@@ -1,22 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
   const fileInput = document.getElementById("csvFileInput");
   const dropdown = document.getElementById("exerciseDropdown");
+  const formatSelector = document.getElementById("csvFormat");
   const chartDiv = document.getElementById("chart");
+
   let exerciseData = {};
+  let exerciseCounts = {};
+  let calisthenicsDetected = new Set();
 
   fileInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    const format = formatSelector.value;
 
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         const rows = results.data;
-        exerciseData = parseWorkoutData(rows);
-        populateDropdown(Object.keys(exerciseData));
+
+        if (format === "strong") {
+          const parsed = parseStrongFormat(rows);
+          exerciseData = parsed.data;
+          exerciseCounts = parsed.counts;
+          calisthenicsDetected = detectCalisthenics(parsed.rawSets);
+        }
+
+        populateDropdown(exerciseCounts, calisthenicsDetected);
         dropdown.disabled = false;
-        dropdown.dispatchEvent(new Event("change")); // trigger initial plot
+        dropdown.dispatchEvent(new Event("change")); // auto-select first
       }
     });
   });
@@ -28,34 +41,69 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function parseWorkoutData(rows) {
-    const output = {};
+  function parseStrongFormat(rows) {
+    const data = {};
+    const counts = {};
+    const rawSets = {}; // for calisthenics detection
 
     rows.forEach(row => {
-      const date = row["Date"]?.slice(0, 10); // Just yyyy-mm-dd
+      const dateTime = row["Date"];
+      const date = dateTime?.slice(0, 10);
       const exercise = row["Exercise Name"]?.trim();
       const weight = parseFloat(row["Weight (kg)"]);
       const reps = parseInt(row["Reps"]);
+      const workoutId = row["Workout #"];
 
       if (!date || !exercise || isNaN(weight) || isNaN(reps)) return;
 
       const volume = weight * reps;
 
-      if (!output[exercise]) output[exercise] = {};
-      if (!output[exercise][date]) output[exercise][date] = 0;
+      if (!data[exercise]) data[exercise] = {};
+      if (!data[exercise][date]) data[exercise][date] = 0;
+      data[exercise][date] += volume;
 
-      output[exercise][date] += volume;
+      if (!counts[exercise]) counts[exercise] = new Set();
+      counts[exercise].add(workoutId);
+
+      if (!rawSets[exercise]) rawSets[exercise] = [];
+      rawSets[exercise].push(weight);
     });
 
-    return output;
+    // Convert workout counts from Set to int
+    Object.keys(counts).forEach(ex => {
+      counts[ex] = counts[ex].size;
+    });
+
+    return { data, counts, rawSets };
   }
 
-  function populateDropdown(exercises) {
+  function detectCalisthenics(rawSets) {
+    const detected = new Set();
+
+    for (const [exercise, weights] of Object.entries(rawSets)) {
+      const zeroWeightCount = weights.filter(w => w === 0).length;
+      const ratio = zeroWeightCount / weights.length;
+
+      if (ratio > 0.5) {
+        detected.add(exercise);
+      }
+    }
+
+    return detected;
+  }
+
+  function populateDropdown(counts, calisthenicsSet) {
     dropdown.innerHTML = "";
-    exercises.sort().forEach(ex => {
+
+    const sorted = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1]);
+
+    sorted.forEach(([exercise, freq]) => {
+      const isCalisthenic = calisthenicsSet.has(exercise);
       const option = document.createElement("option");
-      option.value = ex;
-      option.textContent = ex;
+      option.value = exercise;
+      option.textContent = exercise;
+      if (isCalisthenic) option.classList.add("calisthenics");
       dropdown.appendChild(option);
     });
   }

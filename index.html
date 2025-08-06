@@ -2,16 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Workout Tracker</title>
+  <title>GainSight – Workout Tracker</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Workout Tracker</h1>
+  <h1>GainSight – Workout Tracker</h1>
+
+  <label for="csvFormat">CSV Format:</label>
+  <select id="csvFormat">
+    <option value="strong" selected>Strong (default)</option>
+    <!-- Add future formats here -->
+  </select>
+
   <input type="file" id="csvFileInput" accept=".csv">
+
+  <label for="exerciseDropdown">Choose Exercise:</label>
   <select id="exerciseDropdown" disabled></select>
+
   <div id="chart"></div>
+
   <script src="script.js"></script>
 </body>
 </html>

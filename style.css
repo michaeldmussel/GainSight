@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   padding: 2rem;
-  background: #f0f2f5;
+  background: #f8f9fa;
   color: #333;
 }
 
@@ -10,12 +10,24 @@ h1 {
   margin-bottom: 1rem;
 }
 
-#csvFileInput,
-#exerciseDropdown {
+label {
   display: block;
-  margin: 1rem auto;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+#csvFileInput,
+#exerciseDropdown,
+#csvFormat {
+  display: block;
+  margin: 0.5rem auto;
   padding: 0.5rem;
   font-size: 1rem;
+}
+
+#exerciseDropdown option.calisthenics {
+  color: gray;
+  font-style: italic;
 }
 
 #chart {
