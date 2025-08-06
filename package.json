@@ -1,0 +1,37 @@
+{
+  "name": "workout-csv-parser",
+  "version": "1.0.0",
+  "description": "A comprehensive JavaScript parser for workout CSV data with analysis capabilities",
+  "main": "workout-parser.js",
+  "scripts": {
+    "start": "node example.js",
+    "demo": "node -e \"console.log('Open demo.html in your browser to see the interactive demo');\"",
+    "test": "node example.js strong8452961796350394804.csv",
+    "parse": "node example.js"
+  },
+  "keywords": [
+    "workout",
+    "fitness",
+    "csv",
+    "parser",
+    "exercise",
+    "training",
+    "analytics"
+  ],
+  "author": "GitHub Copilot",
+  "license": "MIT",
+  "bin": {
+    "workout-parser": "./example.js"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/workout-csv-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/workout-csv-parser/issues"
+  },
+  "homepage": "https://github.com/your-username/workout-csv-parser#readme"
+}
